@@ -17,4 +17,8 @@ pio lib install 562
     D2 <-> DC
     D8 <-> CS
 
+### 3. Pictures
+
+* ![pic](https://github.com/neptune46/esp8266-oled-weather/blob/master/picture/esp-oled-weather.jpg)
+
 
