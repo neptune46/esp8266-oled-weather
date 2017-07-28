@@ -3,6 +3,7 @@
 #include <SPI.h> // Only needed for Arduino 1.6.5 and earlier
 #include "SSD1306Spi.h"
 #include "SH1106SPi.h"
+#include "image.h"
 
 // Initialize the OLED display using SPI
 // D5 -> CLK
@@ -62,7 +63,13 @@ void drawRectDemo() {
     display.drawVerticalLine(40, 0, 20);
 }
 
-Demo demos[] = {drawFontFaceDemo, drawRectDemo};
+void drawImageDemo() {
+    // see http://blog.squix.org/2015/05/esp8266-nodemcu-how-to-create-xbm.html
+    // on how to create xbm files
+    display.drawXbm(34, 14, WiFi_Logo_width, WiFi_Logo_height, WiFi_Logo_bits);
+}
+
+Demo demos[] = {drawFontFaceDemo, drawRectDemo, drawImageDemo};
 int demoLength = (sizeof(demos) / sizeof(Demo));
 long timeSinceLastModeSwitch = 0;
 
