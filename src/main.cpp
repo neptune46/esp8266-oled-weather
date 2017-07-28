@@ -66,7 +66,7 @@ void drawRectDemo() {
 void drawImageDemo() {
     // see http://blog.squix.org/2015/05/esp8266-nodemcu-how-to-create-xbm.html
     // on how to create xbm files
-    display.drawXbm(32, 0, Logo_width, Logo_height, Logo_bits);
+    display.drawXbm(0, 0, Logo_width, Logo_height, Logo_bits);
 }
 
 Demo demos[] = {drawFontFaceDemo, drawRectDemo, drawImageDemo};
