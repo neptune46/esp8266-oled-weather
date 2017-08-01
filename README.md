@@ -3,7 +3,7 @@ Weather forecast using ESP8266+OLED
 
 ### 1. Install PlatformIO library
 
-* install OLED SSD1306 driver library
+Install OLED SSD1306 driver library
 ```shell
 pio lib install 562
 ```
@@ -20,7 +20,6 @@ pio lib install 562
 ### 3. Convert image file as OLED displayable array
 
 Use Img2Array.py to convert weather icon image to binary image array for OLED display
-
 To run Img2Array.py, need install below python libraries 
 
     pip install -i https://pypi.tuna.tsinghua.edu.cn/simple numpy
