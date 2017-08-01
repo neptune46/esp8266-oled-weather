@@ -23,32 +23,9 @@ Use Img2Array.py to convert weather icon image to binary image array for OLED di
 
 To run Img2Array.py, need install below python libraries 
 
-[Install OpenCV-Python in Windows](http://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_setup/py_setup_in_windows/py_setup_in_windows.html)
-
-    Installing OpenCV from prebuilt binaries
-
-    Below Python packages are to be downloaded and installed to their default locations.
-
-    1.1. Python-2.7.x.
-    1.2. Numpy.
-    1.3. Matplotlib (Matplotlib is optional).
-
-    Install all packages into their default locations. Python will be installed to C:/Python27/.
-
-    After installation, open Python IDLE. Enter import numpy and make sure Numpy is working fine.
-    
-    Download latest OpenCV release from sourceforge site and double-click to extract it.
-    
-    Goto opencv/build/python/2.7 folder.
-    
-    Copy cv2.pyd to C:/Python27/lib/site-packeges.
-    
-    Open Python IDLE and type following codes in Python terminal.
-
-    >>> import cv2
-    >>> print cv2.__version__
-    
-    If the results are printed out without any errors, congratulations !!! You have installed OpenCV-Python successfully.
+    pip install -i https://pypi.tuna.tsinghua.edu.cn/simple numpy
+    pip install -i https://pypi.tuna.tsinghua.edu.cn/simple opencv-python
+    pip install -i https://pypi.tuna.tsinghua.edu.cn/simple matplotlib
 
 ### 4. Pictures
 
