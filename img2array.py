@@ -12,12 +12,6 @@ im_gray = cv2.imread('100.png', 0)
 # Resize image
 im_resize = cv2.resize(im_bw, (imgw, imgh)) 
 
-cv2.imshow("resize", im_resize)
-cv2.waitKey(0)
-
-# Save to disk
-cv2.imwrite('bw_image.png', im_resize)
-
 outstr = ""
 bitcount = 0
 bytecount = 0
