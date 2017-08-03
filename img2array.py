@@ -2,22 +2,21 @@ import cv2
 
 imgw = 64
 imgh = 64
+outfile = ".\\src\\image.h"
 
-# Read a grayscale image
-im_gray = cv2.imread('100.png', 0)
+def img2Array(fileImg):
+    # Read a grayscale image
+    im_gray = cv2.imread(fileImg, 0)
+    # Convert grayscale image to binary
+    (thresh, im_bw) = cv2.threshold(im_gray, 128, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+    # Resize image
+    im_resize = cv2.resize(im_bw, (imgw, imgh)) 
 
-# Convert grayscale image to binary
-(thresh, im_bw) = cv2.threshold(im_gray, 128, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+    arraystr = "    "
+    bitcount = 0
+    bytecount = 0
+    data = 0
 
-# Resize image
-im_resize = cv2.resize(im_bw, (imgw, imgh)) 
-
-outstr = ""
-bitcount = 0
-bytecount = 0
-data = 0
-
-with open("array.txt", "w") as text_file:
     for i in range(imgh):
         for j in range(imgw):
             if im_resize[i][j] == 255:
@@ -28,10 +27,29 @@ with open("array.txt", "w") as text_file:
             bitcount = bitcount + 1
             if bitcount == 8:
                 bitcount = 0
-                outstr = outstr + "{0:#0{1}x}".format(data, 4) + ", "
+                arraystr = arraystr + "{0:#0{1}x}".format(data, 4) + ", "
                 data = 0
                 bytecount = bytecount + 1
                 if bytecount == 16:
-                    outstr = outstr + "\n"
-                    bytecount = 0     
-    text_file.write("%s" % outstr)
+                    arraystr = arraystr + "\n" + "    "
+                    bytecount = 0
+    
+    return arraystr
+    
+def convert(imgfile):
+    struct_str = "const char img001[] PROGMEM = { \n"
+    struct_str = struct_str + img2Array(imgfile)
+    struct_str = struct_str + "};"
+    with open(outfile, "a") as text_file:
+        text_file.write("%s" % struct_str)
+
+def prefix():
+    prefix_str = "#define IMG_WIDTH " + str(imgw) + "\n"
+    prefix_str += "#define IMG_HEIGHT " + str(imgh) + "\n"
+    with open(outfile, "w") as text_file:
+        text_file.write("%s" % prefix_str)
+
+if __name__ == "__main__":
+    prefix()
+    imgfile = "..\\icon\\100.png"
+    convert(imgfile)
