@@ -3,6 +3,8 @@ import cv2
 imgw = 64
 imgh = 64
 outfile = ".\\src\\image.h"
+array_count = 0
+array_list = "const char *array_list[] = { "
 
 def img2Array(fileImg):
     # Read a grayscale image
@@ -35,21 +37,51 @@ def img2Array(fileImg):
                     bytecount = 0
     
     return arraystr
+
+def getArrayName(imgfile):
+    name = imgfile.split(".")[-2].split("\\")[-1]
+    if name == "":
+        return "array_" + array_count
+    else:
+        return "array_" + name
     
 def convert(imgfile):
-    struct_str = "const char img001[] PROGMEM = { \n"
+    array_name = getArrayName(imgfile)
+    struct_str = "const char " + array_name + "[] PROGMEM = { \n"
     struct_str = struct_str + img2Array(imgfile)
-    struct_str = struct_str + "};"
+    struct_str = struct_str + "};\n"
+    global array_count
+    array_count = array_count + 1
     with open(outfile, "a") as text_file:
         text_file.write("%s" % struct_str)
+    global array_list
+    array_list = array_list + array_name + ", "
+    print "convert image file [" + imgfile + "] done..." 
 
-def prefix():
+def writePrefix():
     prefix_str = "#define IMG_WIDTH " + str(imgw) + "\n"
     prefix_str += "#define IMG_HEIGHT " + str(imgh) + "\n"
     with open(outfile, "w") as text_file:
         text_file.write("%s" % prefix_str)
 
+def writeSuffix():
+    global array_list
+    array_list = array_list + "};\n"
+    with open(outfile, "a") as text_file:
+        text_file.write("%s" % array_list)
+
 if __name__ == "__main__":
-    prefix()
+    writePrefix()
+
     imgfile = "..\\icon\\100.png"
     convert(imgfile)
+    imgfile = "..\\icon\\101.png"
+    convert(imgfile)
+    imgfile = "..\\icon\\102.png"
+    convert(imgfile)
+    imgfile = "..\\icon\\103.png"
+    convert(imgfile)
+    imgfile = "..\\icon\\104.png"
+    convert(imgfile)
+
+    writeSuffix()

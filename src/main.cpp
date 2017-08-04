@@ -63,13 +63,27 @@ void drawRectDemo() {
     display.drawVerticalLine(40, 0, 20);
 }
 
-void drawImageDemo() {
-    // see http://blog.squix.org/2015/05/esp8266-nodemcu-how-to-create-xbm.html
-    // on how to create xbm files
-    display.drawXbm(0, 0, IMG_WIDTH, IMG_HEIGHT, img001);
+void drawImageDemo0() {
+    display.drawXbm(0, 0, IMG_WIDTH, IMG_HEIGHT, array_list[0]);
 }
 
-Demo demos[] = {drawFontFaceDemo, drawRectDemo, drawImageDemo};
+void drawImageDemo1() {
+    display.drawXbm(0, 0, IMG_WIDTH, IMG_HEIGHT,  array_list[1]);
+}
+
+void drawImageDemo2() {
+    display.drawXbm(0, 0, IMG_WIDTH, IMG_HEIGHT,  array_list[2]);
+}
+
+void drawImageDemo3() {
+    display.drawXbm(0, 0, IMG_WIDTH, IMG_HEIGHT,  array_list[3]);
+}
+
+void drawImageDemo4() {
+    display.drawXbm(0, 0, IMG_WIDTH, IMG_HEIGHT,  array_list[4]);
+}
+
+Demo demos[] = {drawImageDemo0, drawImageDemo1, drawImageDemo2, drawImageDemo4, drawImageDemo4};
 int demoLength = (sizeof(demos) / sizeof(Demo));
 long timeSinceLastModeSwitch = 0;
 
