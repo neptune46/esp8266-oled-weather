@@ -13,8 +13,8 @@
 // D8 -> CS
 SSD1306Spi        display(D0, D2, D8);
 
-#define DEMO_DURATION 3000
-typedef void (*Demo)(void);
+#define DEMO_DURATION 1000
+typedef void (*Demo)(int);
 
 int demoMode = 0;
 int counter = 1;
@@ -33,7 +33,7 @@ void setup() {
 
 }
 
-void drawFontFaceDemo() {
+void drawFontFaceDemo(int i) {
     // Font Demo1
     // create more fonts at http://oleddisplay.squix.ch/
     display.setTextAlignment(TEXT_ALIGN_LEFT);
@@ -45,7 +45,7 @@ void drawFontFaceDemo() {
     display.drawString(0, 26, "Hello world");
 }
 
-void drawRectDemo() {
+void drawRectDemo(int i) {
       // Draw a pixel at given position
     for (int i = 0; i < 10; i++) {
       display.setPixel(i, i);
@@ -63,38 +63,26 @@ void drawRectDemo() {
     display.drawVerticalLine(40, 0, 20);
 }
 
-void drawImageDemo0() {
-    display.drawXbm(0, 0, IMG_WIDTH, IMG_HEIGHT, array_list[0]);
+void drawImageDemo(int i) {
+    display.drawXbm(0, 0, IMG_WIDTH, IMG_HEIGHT, array_list[i]);
 }
 
-void drawImageDemo1() {
-    display.drawXbm(0, 0, IMG_WIDTH, IMG_HEIGHT,  array_list[1]);
-}
 
-void drawImageDemo2() {
-    display.drawXbm(0, 0, IMG_WIDTH, IMG_HEIGHT,  array_list[2]);
-}
-
-void drawImageDemo3() {
-    display.drawXbm(0, 0, IMG_WIDTH, IMG_HEIGHT,  array_list[3]);
-}
-
-void drawImageDemo4() {
-    display.drawXbm(0, 0, IMG_WIDTH, IMG_HEIGHT,  array_list[4]);
-}
-
-Demo demos[] = {drawImageDemo0, drawImageDemo1, drawImageDemo2, drawImageDemo4, drawImageDemo4};
+Demo demos[] = { drawFontFaceDemo, drawRectDemo, drawImageDemo };
 int demoLength = (sizeof(demos) / sizeof(Demo));
 long timeSinceLastModeSwitch = 0;
+
+int array_index = 0;
 
 void loop() {
   // clear the display
   display.clear();
-  // draw the current demo method
-  demos[demoMode]();
 
-  display.setTextAlignment(TEXT_ALIGN_RIGHT);
-  display.drawString(10, 128, String(millis()));
+  // draw the current demo method
+  demos[demoMode](array_index);
+
+  array_index = (array_index + 1) % array_num;
+
   // write the buffer to the display
   display.display();
 
@@ -103,5 +91,5 @@ void loop() {
     timeSinceLastModeSwitch = millis();
   }
   counter++;
-  delay(10);
+  delay(500);
 }

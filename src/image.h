@@ -1787,3 +1787,4 @@ const char *array_list[] = {
     array_901, 
     array_999, 
     };
+int array_num = (sizeof(array_list) / sizeof(char *));

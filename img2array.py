@@ -69,6 +69,7 @@ def writePrefix():
 def writeSuffix():
     global array_list
     array_list = array_list + "};\n"
+    array_list = array_list + "int array_num = (sizeof(array_list) / sizeof(char *));\n"
     with open(outfile, "a") as text_file:
         text_file.write("%s" % array_list)
 
@@ -78,4 +79,4 @@ if __name__ == "__main__":
     for imgfile in os.listdir(img_dir):
         convertImg(img_dir + "\\" + imgfile)
     writeSuffix()
-    print "conversion done!\nconverted " + str(array_count) + "files"
+    print "conversion done!\nconverted " + str(array_count) + " files"
