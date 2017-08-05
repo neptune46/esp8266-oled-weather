@@ -1,10 +1,12 @@
+import os
 import cv2
 
 imgw = 64
 imgh = 64
 outfile = ".\\src\\image.h"
+img_dir = os.path.abspath(".") + "\\icon"
 array_count = 0
-array_list = "const char *array_list[] = { "
+array_list = "const char *array_list[] = { \n    "
 
 def img2Array(fileImg):
     # Read a grayscale image
@@ -45,7 +47,7 @@ def getArrayName(imgfile):
     else:
         return "array_" + name
     
-def convert(imgfile):
+def convertImg(imgfile):
     array_name = getArrayName(imgfile)
     struct_str = "const char " + array_name + "[] PROGMEM = { \n"
     struct_str = struct_str + img2Array(imgfile)
@@ -55,7 +57,7 @@ def convert(imgfile):
     with open(outfile, "a") as text_file:
         text_file.write("%s" % struct_str)
     global array_list
-    array_list = array_list + array_name + ", "
+    array_list = array_list + array_name + ", \n    "
     print "convert image file [" + imgfile + "] done..." 
 
 def writePrefix():
@@ -71,17 +73,9 @@ def writeSuffix():
         text_file.write("%s" % array_list)
 
 if __name__ == "__main__":
+    print "start conversion ..."
     writePrefix()
-
-    imgfile = "..\\icon\\100.png"
-    convert(imgfile)
-    imgfile = "..\\icon\\101.png"
-    convert(imgfile)
-    imgfile = "..\\icon\\102.png"
-    convert(imgfile)
-    imgfile = "..\\icon\\103.png"
-    convert(imgfile)
-    imgfile = "..\\icon\\104.png"
-    convert(imgfile)
-
+    for imgfile in os.listdir(img_dir):
+        convertImg(img_dir + "\\" + imgfile)
     writeSuffix()
+    print "conversion done!\nconverted " + str(array_count) + "files"
