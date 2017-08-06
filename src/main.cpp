@@ -24,7 +24,6 @@ void setup() {
   Serial.println();
   Serial.println();
 
-
   // Initialising the UI will init the display too.
   display.init();
 
@@ -70,7 +69,6 @@ void drawImageDemo(int i) {
 
 Demo demos[] = { drawFontFaceDemo, drawRectDemo, drawImageDemo };
 int demoLength = (sizeof(demos) / sizeof(Demo));
-long timeSinceLastModeSwitch = 0;
 
 int array_index = 0;
 
@@ -79,17 +77,24 @@ void loop() {
   display.clear();
 
   // draw the current demo method
-  demos[demoMode](array_index);
+  //demos[demoMode](array_index);
 
+  drawImageDemo(array_index);
+  array_num = 5;
   array_index = (array_index + 1) % array_num;
+  
+  display.setFont(ArialMT_Plain_10);
+  display.drawString(64, 0*8, "2017.08.06");
+  display.drawString(64, 1*8, "Updt:17:50");
+  display.drawString(64, 2*8, "Temp:28~38");
+  display.drawString(64, 3*8, "Hum :  8.9");
+  display.drawString(64, 4*8, "Wind:  1~2");
+  display.drawString(64, 5*8, "Visi:   15");
+  display.drawString(64, 6*8, "UV  :   10");
 
   // write the buffer to the display
   display.display();
 
-  if (millis() - timeSinceLastModeSwitch > DEMO_DURATION) {
-    demoMode = (demoMode + 1)  % demoLength;
-    timeSinceLastModeSwitch = millis();
-  }
   counter++;
-  delay(500);
+  delay(1000);
 }
