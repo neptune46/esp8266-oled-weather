@@ -84,19 +84,18 @@ class Converter():
         self.writeSuffix()
         print "conversion done!\nconverted " + str(self._array_count) + " files"
 
-def generateArray(imgw, imgh, outfile, imgdir, counter, arraylist, arraytype):
-    cvt = Converter(imgw, imgh, outfile, imgdir, counter, arraylist, arraytype)
+def generateArray(imgw, imgh, outfile, imgdir, counter, arraytype):
+    array_name = "const char *" + arraytype.lower() + "_list[] = { \n    "
+    cvt = Converter(imgw, imgh, outfile, imgdir, counter, array_name, arraytype)
     cvt.executeConvertion()
 
 if __name__ == "__main__":
     # generate weather icons from image
     outfile = ".\\src\\icon.h"
     img_dir = os.path.abspath(".") + "\\icon"
-    array_list = "const char *icon_list[] = { \n    "
-    generateArray(64, 64, outfile, img_dir, 0, array_list, "ICON")
+    generateArray(64, 64, outfile, img_dir, 0, "ICON")
     
     # generate chinese characters from image
     outfile = ".\\src\\character.h"
     img_dir = os.path.abspath(".") + "\\character"
-    array_list = "const char *character_list[] = { \n    "
-    generateArray(64, 32, outfile, img_dir, 0, array_list, "CHARACTER")
+    generateArray(64, 32, outfile, img_dir, 0, "CHARACTER")
