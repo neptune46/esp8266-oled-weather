@@ -3,7 +3,8 @@
 #include <SPI.h> // Only needed for Arduino 1.6.5 and earlier
 #include "SSD1306Spi.h"
 #include "SH1106SPi.h"
-#include "image.h"
+#include "icon.h"
+#include "character.h"
 
 // Initialize the OLED display using SPI
 // D5 -> CLK
@@ -63,7 +64,7 @@ void drawRectDemo(int i) {
 }
 
 void drawImageDemo(int i) {
-    display.drawXbm(0, 0, IMG_WIDTH, IMG_HEIGHT, array_list[i]);
+    display.drawXbm(0, 0, ICON_WIDTH, ICON_HEIGHT, icon_list[i]);
 }
 
 
@@ -80,17 +81,17 @@ void loop() {
   //demos[demoMode](array_index);
 
   drawImageDemo(array_index);
-  array_num = 5;
-  array_index = (array_index + 1) % array_num;
+  //array_num = 5;
+  array_index = (array_index + 1) % icon_num;
   
-  display.setFont(ArialMT_Plain_10);
-  display.drawString(64, 0*8, "2017.08.06");
-  display.drawString(64, 1*8, "Updt:17:50");
-  display.drawString(64, 2*8, "Temp:28~38");
-  display.drawString(64, 3*8, "Hum :  8.9");
-  display.drawString(64, 4*8, "Wind:  1~2");
-  display.drawString(64, 5*8, "Visi:   15");
-  display.drawString(64, 6*8, "UV  :   10");
+  //display.setFont(ArialMT_Plain_10);
+  //display.drawString(64, 0*8, "2017.08.06");
+  //display.drawString(64, 1*8, "Updt:17:50");
+  //display.drawString(64, 2*8, "Temp:28~38");
+  //display.drawString(64, 3*8, "Hum :  8.9");
+  //display.drawString(64, 4*8, "Wind:  1~2");
+  //display.drawString(64, 5*8, "Visi:   15");
+  //display.drawString(64, 6*8, "UV  :   10");
 
   // write the buffer to the display
   display.display();
