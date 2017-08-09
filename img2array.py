@@ -3,7 +3,7 @@ import cv2
 
 class Converter():
 
-    def __init__(self, imgw, imgh, outfile, imgdir, counter, arraylist, arraytype):
+    def __init__(self, imgw, imgh, outfile, imgdir, counter, arraylist, arraytype, inverse):
         self._imgw = imgw
         self._imgh = imgh
         self._outfile = outfile
@@ -11,6 +11,7 @@ class Converter():
         self._array_count = counter
         self._array_list = arraylist
         self._array_type = arraytype
+        self._inverse_img = inverse
 
     def img2Array(self, fileImg):
         # Read a grayscale image
@@ -28,9 +29,9 @@ class Converter():
         for i in range(self._imgh):
             for j in range(self._imgw):
                 if im_resize[i][j] == 255:
-                    val = 1
+                    val = self._inverse_img
                 else:
-                    val = 0
+                    val = not self._inverse_img
                 data = data | val << bitcount
                 bitcount = bitcount + 1
                 if bitcount == 8:
@@ -84,18 +85,18 @@ class Converter():
         self.writeSuffix()
         print "conversion done!\nconverted " + str(self._array_count) + " files"
 
-def generateArray(imgw, imgh, outfile, imgdir, counter, arraytype):
+def generateArray(imgw, imgh, outfile, imgdir, counter, arraytype, inverse):
     array_name = "const char *" + arraytype.lower() + "_list[] = { \n    "
-    cvt = Converter(imgw, imgh, outfile, imgdir, counter, array_name, arraytype)
+    cvt = Converter(imgw, imgh, outfile, imgdir, counter, array_name, arraytype, inverse)
     cvt.executeConvertion()
 
 if __name__ == "__main__":
     # generate weather icons from image
     outfile = ".\\src\\icon.h"
     img_dir = os.path.abspath(".") + "\\icon"
-    generateArray(64, 64, outfile, img_dir, 0, "ICON")
+    generateArray(64, 64, outfile, img_dir, 0, "ICON", False)
     
     # generate chinese characters from image
     outfile = ".\\src\\character.h"
     img_dir = os.path.abspath(".") + "\\character"
-    generateArray(64, 32, outfile, img_dir, 0, "CHARACTER")
+    generateArray(64, 32, outfile, img_dir, 0, "CHARACTER", True)
