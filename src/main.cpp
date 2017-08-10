@@ -6,6 +6,7 @@
 #include "icon.h"
 #include "character.h"
 #include "number.h"
+#include "symbol.h"
 
 // Initialize the OLED display using SPI
 // D5 -> CLK
@@ -65,10 +66,24 @@ void drawRectDemo(int i) {
 }
 
 void drawImageDemo(int i) {
+
     display.drawXbm(0, 0, ICON_WIDTH, ICON_HEIGHT, icon_list[i]);
+
     display.drawXbm(64, 0, CHARACTER_WIDTH, CHARACTER_HEIGHT, character_list[i]);
-    display.drawXbm(64, 32, NUMBER_WIDTH, NUMBER_HEIGHT, number_list[0]);
-    display.drawXbm(64, 48, NUMBER_WIDTH, NUMBER_HEIGHT, number_list[1]);
+
+    display.drawXbm(64+0*8, 32, NUMBER_WIDTH, NUMBER_HEIGHT, number_list[2]);
+    display.drawXbm(64+1*8, 32, NUMBER_WIDTH, NUMBER_HEIGHT, number_list[5]);
+    display.drawXbm(64+2*8, 32, SYMBOL_WIDTH, SYMBOL_HEIGHT, symbol_list[0]); // ~
+    display.drawXbm(64+4*8, 32, NUMBER_WIDTH, NUMBER_HEIGHT, number_list[3]);
+    display.drawXbm(64+5*8, 32, NUMBER_WIDTH, NUMBER_HEIGHT, number_list[2]);
+    display.drawXbm(64+6*8, 32, SYMBOL_WIDTH, SYMBOL_HEIGHT, symbol_list[1]); // C
+
+    display.drawXbm(64+0*8, 48, NUMBER_WIDTH, NUMBER_HEIGHT, number_list[0]);
+    display.drawXbm(64+1*8, 48, NUMBER_WIDTH, NUMBER_HEIGHT, number_list[8]);
+    display.drawXbm(64+2*8, 48, SYMBOL_WIDTH, SYMBOL_HEIGHT, symbol_list[2]); // month
+    display.drawXbm(64+4*8, 48, NUMBER_WIDTH, NUMBER_HEIGHT, number_list[1]);
+    display.drawXbm(64+5*8, 48, NUMBER_WIDTH, NUMBER_HEIGHT, number_list[0]);
+    display.drawXbm(64+6*8, 48, SYMBOL_WIDTH, SYMBOL_HEIGHT, symbol_list[3]); // day
 }
 
 

@@ -48,9 +48,9 @@ class Converter():
     def getArrayName(self, imgfile):
         name = imgfile.split(".")[-2].split("\\")[-1]
         if name == "":
-            return "array_" + self._array_count
+            return self._array_type.lower() + "_" + self._array_count
         else:
-            return "array_" + name
+            return self._array_type.lower() + "_" + name
 
     def convertImg(self, imgfile):
         array_name = self.getArrayName(imgfile)
@@ -91,17 +91,22 @@ def generateArray(imgw, imgh, outfile, imgdir, counter, arraytype, inverse):
     cvt.executeConvertion()
 
 if __name__ == "__main__":
-    # generate weather icons from image
+    # generate weather icons array from image
     outfile = ".\\src\\icon.h"
     img_dir = os.path.abspath(".") + "\\icon"
     generateArray(64, 64, outfile, img_dir, 0, "ICON", False)
     
-    # generate chinese characters from image
+    # generate chinese characters array from image
     outfile = ".\\src\\character.h"
     img_dir = os.path.abspath(".") + "\\character"
     generateArray(64, 32, outfile, img_dir, 0, "CHARACTER", True)
 
-    # generate number from image
+    # generate number array from image
     outfile = ".\\src\\number.h"
     img_dir = os.path.abspath(".") + "\\number"
-    generateArray(64, 16, outfile, img_dir, 0, "NUMBER", True)
+    generateArray(8, 16, outfile, img_dir, 0, "NUMBER", True)
+
+        # generate symbol array from image
+    outfile = ".\\src\\symbol.h"
+    img_dir = os.path.abspath(".") + "\\symbol"
+    generateArray(16, 16, outfile, img_dir, 0, "SYMBOL", True)
