@@ -5,6 +5,7 @@
 #include "SH1106SPi.h"
 #include "icon.h"
 #include "character.h"
+#include "number.h"
 
 // Initialize the OLED display using SPI
 // D5 -> CLK
@@ -66,6 +67,8 @@ void drawRectDemo(int i) {
 void drawImageDemo(int i) {
     display.drawXbm(0, 0, ICON_WIDTH, ICON_HEIGHT, icon_list[i]);
     display.drawXbm(64, 0, CHARACTER_WIDTH, CHARACTER_HEIGHT, character_list[i]);
+    display.drawXbm(64, 32, NUMBER_WIDTH, NUMBER_HEIGHT, number_list[0]);
+    display.drawXbm(64, 48, NUMBER_WIDTH, NUMBER_HEIGHT, number_list[1]);
 }
 
 

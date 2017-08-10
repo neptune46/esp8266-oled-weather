@@ -100,3 +100,8 @@ if __name__ == "__main__":
     outfile = ".\\src\\character.h"
     img_dir = os.path.abspath(".") + "\\character"
     generateArray(64, 32, outfile, img_dir, 0, "CHARACTER", True)
+
+    # generate number from image
+    outfile = ".\\src\\number.h"
+    img_dir = os.path.abspath(".") + "\\number"
+    generateArray(64, 16, outfile, img_dir, 0, "NUMBER", True)
