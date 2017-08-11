@@ -69,7 +69,11 @@ void drawImageDemo(int i) {
 
     display.drawXbm(0, 0, ICON_WIDTH, ICON_HEIGHT, icon_list[i]);
 
+    display.drawVerticalLine(60, 0, 64);
+
     display.drawXbm(64, 0, CHARACTER_WIDTH, CHARACTER_HEIGHT, character_list[i]);
+
+    display.drawHorizontalLine(60, 32, 68);
 
     display.drawXbm(64+0*8, 32, NUMBER_WIDTH, NUMBER_HEIGHT, number_list[2]);
     display.drawXbm(64+1*8, 32, NUMBER_WIDTH, NUMBER_HEIGHT, number_list[5]);
@@ -84,6 +88,8 @@ void drawImageDemo(int i) {
     display.drawXbm(64+4*8, 48, NUMBER_WIDTH, NUMBER_HEIGHT, number_list[1]);
     display.drawXbm(64+5*8, 48, NUMBER_WIDTH, NUMBER_HEIGHT, number_list[0]);
     display.drawXbm(64+6*8, 48, SYMBOL_WIDTH, SYMBOL_HEIGHT, symbol_list[3]); // day
+
+    display.drawRect(0, 0, 128, 64);
 }
 
 
