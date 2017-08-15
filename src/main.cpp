@@ -22,10 +22,14 @@ typedef void (*Demo)(int);
 int demoMode = 0;
 int counter = 1;
 
+void connectHttps();
+
 void setup() {
   Serial.begin(9600);
   Serial.println();
   Serial.println();
+
+  connectHttps();
 
   // Initialising the UI will init the display too.
   display.init();
