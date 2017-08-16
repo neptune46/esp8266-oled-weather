@@ -22,14 +22,48 @@ typedef void (*Demo)(int);
 int demoMode = 0;
 int counter = 1;
 
-void connectHttps();
+typedef struct _WeatherData {
+  int code;
+  int min;
+  int max;
+  int month;
+  int day;
+} WeatherData;
+
+#define DAY_NUM 3
+
+WeatherData wthData[DAY_NUM];
+
+void connectHttps(char **day1, char **day2, char **day3);
 
 void setup() {
   Serial.begin(9600);
   Serial.println();
   Serial.println();
 
-  connectHttps();
+  char day1[5][32] = {};
+  char day2[5][32] = {};
+  char day3[5][32] = {};
+
+  connectHttps((char**)day1, (char**)day2, (char**)day3);
+
+  wthData[0].code = atoi(day1[0]);
+  wthData[0].min = atoi(day1[1]);
+  wthData[0].max = atoi(day1[2]);
+  wthData[0].month = atoi(day1[3]);
+  wthData[0].day = atoi(day1[4]);
+
+  wthData[1].code = atoi(day2[0]);
+  wthData[1].min = atoi(day2[1]);
+  wthData[1].max = atoi(day2[2]);
+  wthData[1].month = atoi(day2[3]);
+  wthData[1].day = atoi(day2[4]);
+
+  wthData[2].code = atoi(day3[0]);
+  wthData[2].min = atoi(day3[1]);
+  wthData[2].max = atoi(day3[2]);
+  wthData[2].month = atoi(day3[3]);
+  wthData[2].day = atoi(day3[4]);
 
   // Initialising the UI will init the display too.
   display.init();
@@ -71,26 +105,32 @@ void drawRectDemo(int i) {
 
 void drawImageDemo(int i) {
 
-    display.drawXbm(0, 0, ICON_WIDTH, ICON_HEIGHT, icon_list[i]);
+    char code = wthData[i].code;
+    char min = wthData[i].min;
+    char max = wthData[i].max;
+    char month = wthData[i].month;
+    char day = wthData[i].day;
+
+    display.drawXbm(0, 0, ICON_WIDTH, ICON_HEIGHT, icon_list[code]);
 
     display.drawVerticalLine(60, 0, 64);
 
-    display.drawXbm(64, 0, CHARACTER_WIDTH, CHARACTER_HEIGHT, character_list[i]);
+    display.drawXbm(64, 0, CHARACTER_WIDTH, CHARACTER_HEIGHT, character_list[code]);
 
     display.drawHorizontalLine(60, 32, 68);
 
-    display.drawXbm(64+0*8, 32, NUMBER_WIDTH, NUMBER_HEIGHT, number_list[2]);
-    display.drawXbm(64+1*8, 32, NUMBER_WIDTH, NUMBER_HEIGHT, number_list[5]);
+    display.drawXbm(64+0*8, 32, NUMBER_WIDTH, NUMBER_HEIGHT, number_list[min/10]);
+    display.drawXbm(64+1*8, 32, NUMBER_WIDTH, NUMBER_HEIGHT, number_list[min%10]);
     display.drawXbm(64+2*8, 32, SYMBOL_WIDTH, SYMBOL_HEIGHT, symbol_list[0]); // ~
-    display.drawXbm(64+4*8, 32, NUMBER_WIDTH, NUMBER_HEIGHT, number_list[3]);
-    display.drawXbm(64+5*8, 32, NUMBER_WIDTH, NUMBER_HEIGHT, number_list[2]);
+    display.drawXbm(64+4*8, 32, NUMBER_WIDTH, NUMBER_HEIGHT, number_list[max/10]);
+    display.drawXbm(64+5*8, 32, NUMBER_WIDTH, NUMBER_HEIGHT, number_list[max%10]);
     display.drawXbm(64+6*8, 32, SYMBOL_WIDTH, SYMBOL_HEIGHT, symbol_list[1]); // C
 
-    display.drawXbm(64+0*8, 48, NUMBER_WIDTH, NUMBER_HEIGHT, number_list[0]);
-    display.drawXbm(64+1*8, 48, NUMBER_WIDTH, NUMBER_HEIGHT, number_list[8]);
+    display.drawXbm(64+0*8, 48, NUMBER_WIDTH, NUMBER_HEIGHT, number_list[month/10]);
+    display.drawXbm(64+1*8, 48, NUMBER_WIDTH, NUMBER_HEIGHT, number_list[month%10]);
     display.drawXbm(64+2*8, 48, SYMBOL_WIDTH, SYMBOL_HEIGHT, symbol_list[2]); // month
-    display.drawXbm(64+4*8, 48, NUMBER_WIDTH, NUMBER_HEIGHT, number_list[1]);
-    display.drawXbm(64+5*8, 48, NUMBER_WIDTH, NUMBER_HEIGHT, number_list[0]);
+    display.drawXbm(64+4*8, 48, NUMBER_WIDTH, NUMBER_HEIGHT, number_list[day/10]);
+    display.drawXbm(64+5*8, 48, NUMBER_WIDTH, NUMBER_HEIGHT, number_list[day%10]);
     display.drawXbm(64+6*8, 48, SYMBOL_WIDTH, SYMBOL_HEIGHT, symbol_list[3]); // day
 
     display.drawRect(0, 0, 128, 64);
@@ -100,18 +140,14 @@ void drawImageDemo(int i) {
 Demo demos[] = { drawFontFaceDemo, drawRectDemo, drawImageDemo };
 int demoLength = (sizeof(demos) / sizeof(Demo));
 
-int array_index = 0;
+int day_index = 0;
 
 void loop() {
   // clear the display
   display.clear();
 
-  // draw the current demo method
-  //demos[demoMode](array_index);
-
-  drawImageDemo(array_index);
-  //array_num = 5;
-  array_index = (array_index + 1) % icon_num;
+  drawImageDemo(day_index);
+  day_index = (day_index + 1) % DAY_NUM;
 
   // write the buffer to the display
   display.display();
