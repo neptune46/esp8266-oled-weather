@@ -7,6 +7,10 @@ Install OLED SSD1306 driver library
 ```shell
 pio lib install 562
 ```
+Install ArduinoJson library
+```shell
+pio lib install 64
+```
 
 ### 2. Wire OLED with ESP8266 (NodeMCU board)
 

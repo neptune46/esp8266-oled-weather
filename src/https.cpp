@@ -1,6 +1,8 @@
 #include <ESP8266WiFi.h>
 #include <WiFiClientSecure.h>
 
+#include <ArduinoJson.h>
+
 const char* ssid = "LINK025";
 const char* password = "summerview@2013";
 
@@ -62,6 +64,42 @@ void connectHttps() {
   } else {
     Serial.println("esp8266/Arduino CI has failed");
   }
+
+  DynamicJsonBuffer  jsonBuffer;
+  JsonObject& root = jsonBuffer.parseObject(line);
+  if (!root.success()) {
+    Serial.println("parseObject() failed");
+  } else {
+    Serial.println("parseObject() success...");
+
+    const char* day1[3];
+    day1[0] = root["HeWeather5"][0]["daily_forecast"][0]["cond"]["code_d"];
+    day1[1] = root["HeWeather5"][0]["daily_forecast"][0]["tmp"]["min"];
+    day1[2] = root["HeWeather5"][0]["daily_forecast"][0]["tmp"]["max"];
+
+    const char* day2[3];
+    day2[0] = root["HeWeather5"][0]["daily_forecast"][1]["cond"]["code_d"];;
+    day2[1] = root["HeWeather5"][0]["daily_forecast"][1]["tmp"]["min"];
+    day2[2] = root["HeWeather5"][0]["daily_forecast"][1]["tmp"]["max"];
+
+    const char* day3[3];
+    day3[0] = root["HeWeather5"][0]["daily_forecast"][2]["cond"]["code_d"];
+    day3[1] = root["HeWeather5"][0]["daily_forecast"][2]["tmp"]["min"];
+    day3[2] = root["HeWeather5"][0]["daily_forecast"][2]["tmp"]["max"];
+
+    Serial.println(day1[0]);
+    Serial.println(day1[1]);
+    Serial.println(day1[2]);
+
+    Serial.println(day2[0]);
+    Serial.println(day2[1]);
+    Serial.println(day2[2]);
+
+    Serial.println(day3[0]);
+    Serial.println(day3[1]);
+    Serial.println(day3[2]);
+  }
+
   Serial.println("reply was:");
   Serial.println("==========");
   Serial.println(line);
