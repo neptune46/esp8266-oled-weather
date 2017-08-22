@@ -7,7 +7,7 @@
 #include "character.h"
 #include "number.h"
 #include "symbol.h"
-
+#include "define.h"
 // Initialize the OLED display using SPI
 // D5 -> CLK
 // D7 -> MOSI (DOUT)
@@ -16,54 +16,97 @@
 // D8 -> CS
 SSD1306Spi        display(D0, D2, D8);
 
-#define DEMO_DURATION 1000
+#define DEMO_DURATION 3000
 typedef void (*Demo)(int);
 
 int demoMode = 0;
 int counter = 1;
 
-typedef struct _WeatherData {
-  int code;
-  int min;
-  int max;
-  int month;
-  int day;
-} WeatherData;
-
-#define DAY_NUM 3
-
 WeatherData wthData[DAY_NUM];
 
-void connectHttps(char **day1, char **day2, char **day3);
+int code2Index(int code) {
+  int index = 0;
+  switch (code) {
+    case 100: index = 0; break;
+    case 101: index = 1; break;
+    case 102: index = 2; break;
+    case 103: index = 3; break;
+    case 104: index = 4; break;
+    case 200: index = 5; break;
+    case 201: index = 6; break;
+    case 202: index = 7; break;
+    case 203: index = 8; break;
+    case 204: index = 9; break;
+    case 205: index = 10; break;
+    case 206: index = 11; break;
+    case 207: index = 12; break;
+    case 208: index = 13; break;
+    case 209: index = 14; break;
+    case 210: index = 15; break;
+    case 211: index = 16; break;
+    case 212: index = 17; break;
+    case 213: index = 18; break;
+    case 300: index = 19; break;
+    case 301: index = 20; break;
+    case 302: index = 21; break;
+    case 303: index = 22; break;
+    case 304: index = 23; break;
+    case 305: index = 24; break;
+    case 306: index = 25; break;
+    case 307: index = 26; break;
+    case 308: index = 27; break;
+    case 309: index = 28; break;
+    case 310: index = 29; break;
+    case 311: index = 30; break;
+    case 312: index = 31; break;
+    case 313: index = 32; break;
+    case 400: index = 33; break;
+    case 401: index = 34; break;
+    case 402: index = 35; break;
+    case 403: index = 36; break;
+    case 404: index = 37; break;
+    case 405: index = 38; break;
+    case 406: index = 39; break;
+    case 407: index = 40; break;
+    case 500: index = 41; break;
+    case 501: index = 42; break;
+    case 502: index = 43; break;
+    case 503: index = 44; break;
+    case 504: index = 45; break;
+    case 507: index = 46; break;
+    case 508: index = 47; break;
+    case 900: index = 48; break;
+    case 901: index = 49; break;
+    case 999: index = 50; break;
+    default: index = 50; break;
+  }
+  return index;
+}
+
+void convertWeather(WeatherString* day, WeatherData* data) {
+  data->code  = code2Index(atoi(day->strCode));
+  data->min   = atoi(day->strMin);
+  data->max   = atoi(day->strMax);
+  data->month = atoi(day->strMonth);
+  data->day   = atoi(day->strDay);
+}
+
+void connectHttps(WeatherString* day1, WeatherString* day2, WeatherString* day3);
 
 void setup() {
   Serial.begin(9600);
   Serial.println();
   Serial.println();
 
-  char day1[5][32] = {};
-  char day2[5][32] = {};
-  char day3[5][32] = {};
+  WeatherString day1 = {};
+  WeatherString day2 = {};
+  WeatherString day3 = {};
 
-  connectHttps((char**)day1, (char**)day2, (char**)day3);
+  connectHttps(&day1, &day2, &day3);
 
-  wthData[0].code = atoi(day1[0]);
-  wthData[0].min = atoi(day1[1]);
-  wthData[0].max = atoi(day1[2]);
-  wthData[0].month = atoi(day1[3]);
-  wthData[0].day = atoi(day1[4]);
-
-  wthData[1].code = atoi(day2[0]);
-  wthData[1].min = atoi(day2[1]);
-  wthData[1].max = atoi(day2[2]);
-  wthData[1].month = atoi(day2[3]);
-  wthData[1].day = atoi(day2[4]);
-
-  wthData[2].code = atoi(day3[0]);
-  wthData[2].min = atoi(day3[1]);
-  wthData[2].max = atoi(day3[2]);
-  wthData[2].month = atoi(day3[3]);
-  wthData[2].day = atoi(day3[4]);
+  convertWeather(&day1, &wthData[0]);
+  convertWeather(&day2, &wthData[1]);
+  convertWeather(&day3, &wthData[2]);
 
   // Initialising the UI will init the display too.
   display.init();
@@ -153,5 +196,5 @@ void loop() {
   display.display();
 
   counter++;
-  delay(1000);
+  delay(DEMO_DURATION);
 }
