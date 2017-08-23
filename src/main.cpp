@@ -29,6 +29,7 @@ void setup()
   Serial.println();
   Serial.println();
 
+  counter = 0;
   wth.queryWeather();
 
   // Initialising the UI will init the display too.
@@ -84,5 +85,13 @@ void loop()
   display.display();
 
   counter++;
+
+  if(counter >= 2000) 
+  {
+    // update weather data per 100 minutes
+    counter = 0;
+    wth.queryWeather();
+  }
+
   delay(DISPLAY_DURATION);
 }
