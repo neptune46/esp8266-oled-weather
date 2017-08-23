@@ -14,13 +14,16 @@ const int httpsPort = 443;
 // SHA1 fingerprint of the certificate
 const char* fingerprint = "40 e1 ec a0 b9 e1 68 6a aa 8c b9 51 a0 bd 3b 86 b5 03 aa 14";
 
-void copyString(char* dst, const char* src, int length) {
-  for(int i=0; i<length; i++) {
+void copyString(char* dst, const char* src, int length) 
+{
+  for(int i=0; i<length; i++) 
+  {
     dst[i] = src[i];
   }
 }
 
-void printWeather(WeatherString* day) {
+void printWeather(WeatherString* day) 
+{
   Serial.println(day->strCode);
   Serial.println(day->strMin);
   Serial.println(day->strMax);
@@ -28,7 +31,8 @@ void printWeather(WeatherString* day) {
   Serial.println(day->strDay);
 }
 
-void copyWeather(WeatherString* day, const char* str[4]) {
+void copyWeather(WeatherString* day, const char* str[4]) 
+{
   copyString(day->strCode, str[0], strlen(str[0]));
   copyString(day->strMin, str[1], strlen(str[1]));
   copyString(day->strMax, str[2], strlen(str[2]));
@@ -40,14 +44,18 @@ void copyWeather(WeatherString* day, const char* str[4]) {
   printWeather(day);
 }
 
-void connectHttps(WeatherString* day1, WeatherString* day2, WeatherString* day3) {
+void connectHttps(WeatherString* day1, WeatherString* day2, WeatherString* day3) 
+{
   Serial.print("connecting to ");
   Serial.println(ssid);
   WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) {
+
+  while (WiFi.status() != WL_CONNECTED) 
+  {
     delay(500);
     Serial.print(".");
   }
+
   Serial.println("");
   Serial.println("WiFi connected");
   Serial.println("IP address: ");
@@ -57,14 +65,18 @@ void connectHttps(WeatherString* day1, WeatherString* day2, WeatherString* day3)
   WiFiClientSecure client;
   Serial.print("connecting to ");
   Serial.println(host);
-  if (!client.connect(host, httpsPort)) {
+  if (!client.connect(host, httpsPort)) 
+  {
     Serial.println("connection failed");
     return;
   }
 
-  if (client.verify(fingerprint, host)) {
+  if (client.verify(fingerprint, host)) 
+  {
     Serial.println("certificate matches");
-  } else {
+  } 
+  else 
+  {
     Serial.println("certificate doesn't match");
   }
 
@@ -78,25 +90,34 @@ void connectHttps(WeatherString* day1, WeatherString* day2, WeatherString* day3)
                "Connection: close\r\n\r\n");
 
   Serial.println("request sent");
-  while (client.connected()) {
+  while (client.connected()) 
+  {
     String line = client.readStringUntil('\n');
-    if (line == "\r") {
+    if (line == "\r") 
+    {
       Serial.println("headers received");
       break;
     }
   }
+
   String line = client.readStringUntil('\n');
-  if (line.startsWith("{\"state\":\"success\"")) {
+  if (line.startsWith("{\"state\":\"success\"")) 
+  {
     Serial.println("esp8266/Arduino CI successfull!");
-  } else {
+  } 
+  else 
+  {
     Serial.println("esp8266/Arduino CI has failed");
   }
 
   DynamicJsonBuffer  jsonBuffer;
   JsonObject& root = jsonBuffer.parseObject(line);
-  if (!root.success()) {
+  if (!root.success()) 
+  {
     Serial.println("parseObject() failed");
-  } else {
+  } 
+  else 
+  {
     Serial.println("parseObject() success...");
 
     const char* str1[4];
