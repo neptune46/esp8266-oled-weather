@@ -40,7 +40,6 @@ void copyWeather(WeatherString* day, const char* str[4]) {
   printWeather(day);
 }
 
-
 void connectHttps(WeatherString* day1, WeatherString* day2, WeatherString* day3) {
   Serial.print("connecting to ");
   Serial.println(ssid);
@@ -121,10 +120,4 @@ void connectHttps(WeatherString* day1, WeatherString* day2, WeatherString* day3)
     str3[3] = root["HeWeather5"][0]["daily_forecast"][2]["date"];
     copyWeather(day3, str3);
   }
-
-  Serial.println("reply was:");
-  Serial.println("==========");
-  Serial.println(line);
-  Serial.println("==========");
-  Serial.println("closing connection");
 }

@@ -116,37 +116,7 @@ void setup() {
 
 }
 
-void drawFontFaceDemo(int i) {
-    // Font Demo1
-    // create more fonts at http://oleddisplay.squix.ch/
-    display.setTextAlignment(TEXT_ALIGN_LEFT);
-    display.setFont(ArialMT_Plain_10);
-    display.drawString(0, 0, "Hello world");
-    display.setFont(ArialMT_Plain_16);
-    display.drawString(0, 10, "Hello world");
-    display.setFont(ArialMT_Plain_24);
-    display.drawString(0, 26, "Hello world");
-}
-
-void drawRectDemo(int i) {
-      // Draw a pixel at given position
-    for (int i = 0; i < 10; i++) {
-      display.setPixel(i, i);
-      display.setPixel(10 - i, i);
-    }
-    display.drawRect(12, 12, 20, 20);
-
-    // Fill the rectangle
-    display.fillRect(14, 14, 17, 17);
-
-    // Draw a line horizontally
-    display.drawHorizontalLine(0, 40, 20);
-
-    // Draw a line horizontally
-    display.drawVerticalLine(40, 0, 20);
-}
-
-void drawImageDemo(int i) {
+void drawImage(int i) {
 
     char code = wthData[i].code;
     char min = wthData[i].min;
@@ -179,17 +149,13 @@ void drawImageDemo(int i) {
     display.drawRect(0, 0, 128, 64);
 }
 
-
-Demo demos[] = { drawFontFaceDemo, drawRectDemo, drawImageDemo };
-int demoLength = (sizeof(demos) / sizeof(Demo));
-
 int day_index = 0;
 
 void loop() {
   // clear the display
   display.clear();
 
-  drawImageDemo(day_index);
+  drawImage(day_index);
   day_index = (day_index + 1) % DAY_NUM;
 
   // write the buffer to the display
