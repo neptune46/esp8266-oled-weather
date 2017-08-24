@@ -34,5 +34,7 @@ To run Img2Array.py, need install below python libraries
 
 * ![pic1](https://github.com/neptune46/esp8266-oled-weather/blob/master/picture/pic1.jpg)
 
+* ![video1](https://github.com/neptune46/esp8266-oled-weather/blob/master/picture/video1.gif)
+
 
 
